@@ -5,7 +5,11 @@ module.exports = {
     "./public/index.html"
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        primary: '#0E196C',
+      },
+    },
   },
   plugins: [
     require('@tailwindcss/typography'),

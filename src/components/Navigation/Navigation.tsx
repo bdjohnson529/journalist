@@ -21,27 +21,32 @@ export const Navigation: React.FC = () => {
           {/* Logo and desktop navigation */}
           <div className="flex">
             <div className="flex-shrink-0 flex items-center">
-              <Link to="/" className="text-xl font-bold text-blue-600">
-                Journalist
+              <Link to="/" className="flex items-center text-xl font-bold text-primary">
+                <img 
+                  src="/pen.png" 
+                  alt="Pen icon" 
+                  className="mr-2 h-5 w-5"
+                />
+                <span>Journalist</span>
               </Link>
             </div>
             {/* Desktop navigation */}
             <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
               <Link
                 to="/"
-                className="text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 border-transparent hover:border-blue-500"
+                className="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-primary hover:border-primary"
               >
                 Upload
               </Link>
               <Link
                 to="/journal"
-                className="text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 border-transparent hover:border-blue-500"
+                className="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-primary hover:border-primary"
               >
                 Journal
               </Link>
               <Link
                 to="/insights"
-                className="text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 border-transparent hover:border-blue-500"
+                className="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-primary hover:border-primary"
               >
                 Insights
               </Link>
@@ -52,7 +57,7 @@ export const Navigation: React.FC = () => {
           <div className="sm:hidden flex items-center">
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500"
+              className="inline-flex items-center justify-center p-2 rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary"
             >
               <span className="sr-only">Open main menu</span>
               {/* Hamburger icon */}
@@ -92,7 +97,7 @@ export const Navigation: React.FC = () => {
           <div className="hidden sm:flex sm:items-center">
             <button
               onClick={handleSignOut}
-              className="text-gray-900 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium"
+              className="px-3 py-2 rounded-md text-sm font-medium hover:opacity-80"
             >
               Sign Out
             </button>
@@ -105,21 +110,21 @@ export const Navigation: React.FC = () => {
         <div className="pt-2 pb-3 space-y-1">
           <Link
             to="/"
-            className="text-gray-900 block pl-3 pr-4 py-2 border-l-4 border-transparent hover:bg-gray-50 hover:border-blue-500 text-base font-medium"
+            className="block pl-3 pr-4 py-2 border-l-4 border-transparent text-primary hover:bg-gray-50 hover:border-primary text-base font-medium"
             onClick={() => setIsMenuOpen(false)}
           >
             Upload
           </Link>
           <Link
             to="/journal"
-            className="text-gray-900 block pl-3 pr-4 py-2 border-l-4 border-transparent hover:bg-gray-50 hover:border-blue-500 text-base font-medium"
+            className="block pl-3 pr-4 py-2 border-l-4 border-transparent text-primary hover:bg-gray-50 hover:border-primary text-base font-medium"
             onClick={() => setIsMenuOpen(false)}
           >
             Journal
           </Link>
           <Link
             to="/insights"
-            className="text-gray-900 block pl-3 pr-4 py-2 border-l-4 border-transparent hover:bg-gray-50 hover:border-blue-500 text-base font-medium"
+            className="block pl-3 pr-4 py-2 border-l-4 border-transparent text-primary hover:bg-gray-50 hover:border-primary text-base font-medium"
             onClick={() => setIsMenuOpen(false)}
           >
             Insights
@@ -129,7 +134,7 @@ export const Navigation: React.FC = () => {
               handleSignOut();
               setIsMenuOpen(false);
             }}
-            className="text-gray-900 block w-full text-left pl-3 pr-4 py-2 border-l-4 border-transparent hover:bg-gray-50 hover:border-blue-500 text-base font-medium"
+            className="block w-full text-left pl-3 pr-4 py-2 border-l-4 border-transparent text-primary hover:bg-gray-50 hover:border-primary text-base font-medium"
           >
             Sign Out
           </button>

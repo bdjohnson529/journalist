@@ -54,8 +54,13 @@ export const LoginForm: React.FC = () => {
   return (
     <div className="min-h-screen bg-blue-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <h1 className="text-7xl font-bold text-center text-blue-600 mb-6">
-          Journalist
+        <h1 className="text-7xl font-bold text-center text-primary mb-6 flex items-center justify-center">
+          <img 
+            src="/pen.png" 
+            alt="Pen icon" 
+            className="mr-3 h-12 w-12"
+          />
+          <span>Journalist</span>
         </h1>
         <div className="max-w-md w-full space-y-8 bg-white p-8 rounded-lg shadow-lg">
           <div>
@@ -68,7 +73,7 @@ export const LoginForm: React.FC = () => {
             <button
               type="button"
               onClick={handleGoogleSignIn}
-              className="w-full flex items-center justify-center px-4 py-2 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              className="w-full flex items-center justify-center px-4 py-2 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
             >
               <img
                 className="h-5 w-5 mr-2"
@@ -95,26 +100,22 @@ export const LoginForm: React.FC = () => {
               </div>
             )}
             <div className="rounded-md shadow-sm -space-y-px">
-              <div>
-                <input
-                  type="email"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
-                  placeholder="Email address"
-                />
-              </div>
-              <div>
-                <input
-                  type="password"
-                  required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
-                  placeholder="Password"
-                />
-              </div>
+              <input
+                type="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-primary focus:border-primary focus:z-10 sm:text-sm"
+                placeholder="Email address"
+              />
+              <input
+                type="password"
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-primary focus:border-primary focus:z-10 sm:text-sm"
+                placeholder="Password"
+              />
             </div>
 
             <div>
@@ -122,8 +123,8 @@ export const LoginForm: React.FC = () => {
                 type="submit"
                 disabled={loading}
                 className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white ${
-                  loading ? 'bg-blue-400' : 'bg-blue-600 hover:bg-blue-700'
-                } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500`}
+                  loading ? 'bg-primary/60' : 'bg-primary hover:bg-primary/90'
+                } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary`}
               >
                 {loading ? 'Processing...' : (isSignUp ? 'Sign up' : 'Sign in')}
               </button>
@@ -136,7 +137,7 @@ export const LoginForm: React.FC = () => {
                   setIsSignUp(!isSignUp);
                   setError(null);
                 }}
-                className="text-blue-600 hover:text-blue-800 text-sm font-medium"
+                className="text-primary hover:text-primary/80 text-sm font-medium"
               >
                 {isSignUp 
                   ? 'Already have an account? Sign in' 
