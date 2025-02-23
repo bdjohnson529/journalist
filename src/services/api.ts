@@ -1,5 +1,5 @@
 import axios from "axios";
-import { OpenAI_API_KEY, API_BASE_URL } from "../config/constants";
+import { OpenAI_API_KEY } from "../config/constants";
 import { supabase } from "../config/supabase";
 
 export const transcribeImage = async (file: File): Promise<string> => {
