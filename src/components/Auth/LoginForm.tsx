@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { REACT_APP_DOMAIN } from '../../config/constants';
 
 export const LoginForm: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -14,9 +15,10 @@ export const LoginForm: React.FC = () => {
   // Redirect if user is already logged in
   useEffect(() => {
     if (user) {
-      navigate('/');
+      console.log('User authenticated, redirecting to:', `${REACT_APP_DOMAIN}/`);
+      window.location.href = `${REACT_APP_DOMAIN}/`;
     }
-  }, [user, navigate]);
+  }, [user]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -42,8 +44,8 @@ export const LoginForm: React.FC = () => {
       setError(null);
       setLoading(true);
       await signInWithGoogle();
-      // Don't navigate here - let the OAuth redirect handle it
     } catch (err) {
+      console.error('Google sign in error:', err);
       setError(err instanceof Error ? err.message : 'Failed to sign in with Google');
       setLoading(false);
     }

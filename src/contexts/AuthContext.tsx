@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { User } from '@supabase/supabase-js';
 import { supabase } from '../config/supabase';
+import { REACT_APP_DOMAIN } from '../config/constants';
 
 interface AuthContextType {
   user: User | null;
@@ -46,14 +47,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: `${window.location.origin}/`,
-        queryParams: {
-          access_type: 'offline',
-          prompt: 'consent',
-        },
+        redirectTo: REACT_APP_DOMAIN
       }
     });
-    if (error) throw error;
+    if (error) {
+      console.error('Auth error:', error); // Debug log
+      throw error;
+    };
   };
 
   const signOut = async () => {
