@@ -79,23 +79,22 @@ export const submitTranscriptions = async (
     const combinedText = transcriptions.join('\n\n---\n\n');
     const fileNames = files.map(file => file.name);
 
-    const response = await fetch(`${API_BASE_URL}/api/transcriptions`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
+    // Get the current user data
+    const { data: { user } } = await supabase.auth.getUser();
+    
+    if (!user) throw new Error('No authenticated user');
+
+    const { data, error } = await supabase
+      .from('transcriptions')
+      .insert({
         content: combinedText,
         original_files: fileNames,
-        created_at: new Date()
-      }),
-    });
+        created_at: new Date().toISOString(),
+        user_id: user.id
+      });
 
-    if (!response.ok) {
-      throw new Error('Failed to submit transcriptions');
-    }
-
-    return await response.json();
+    if (error) throw error;
+    return data;
   } catch (error) {
     console.error("Error submitting transcriptions:", error);
     throw error;
