@@ -1,5 +1,5 @@
 import axios from "axios";
-import { OpenAI_API_KEY } from "../config/constants";
+import { OpenAI_API_KEY, API_BASE_URL } from "../config/constants";
 import { supabase } from "../config/supabase";
 
 export const transcribeImage = async (file: File): Promise<string> => {
@@ -79,22 +79,23 @@ export const submitTranscriptions = async (
     const combinedText = transcriptions.join('\n\n---\n\n');
     const fileNames = files.map(file => file.name);
 
-    // Get the current user data
-    const { data: { user } } = await supabase.auth.getUser();
-    
-    if (!user) throw new Error('No authenticated user');
-
-    const { data, error } = await supabase
-      .from('transcriptions')
-      .insert({
+    const response = await fetch(`${API_BASE_URL}/api/transcriptions`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
         content: combinedText,
         original_files: fileNames,
-        created_at: new Date().toISOString(),
-        user_id: user.id
-      });
+        created_at: new Date()
+      }),
+    });
 
-    if (error) throw error;
-    return data;
+    if (!response.ok) {
+      throw new Error('Failed to submit transcriptions');
+    }
+
+    return await response.json();
   } catch (error) {
     console.error("Error submitting transcriptions:", error);
     throw error;
