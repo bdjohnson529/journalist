@@ -85,83 +85,48 @@ export const HandwritingUploader: React.FC = () => {
           Upload Handwriting
         </h1>
       </div>
-
-      <div className="flex flex-col lg:flex-row gap-6">
-        <div className="w-full lg:w-1/2 space-y-6">
+      
+      <div className="max-w-3xl mx-auto">
+        <div className="space-y-6">
           <FileUploadZone 
             onFilesProcessed={handleFilesProcessed}
             setLoading={setLoading}
           />
-
-          {files.length > 0 && (
-            <div className="text-sm text-blue-500">
-              {files.length} file(s) selected
-            </div>
-          )}
-
-          {transcriptions.length > 0 && (
-            <div className="space-y-2">
-              <div className="flex justify-between items-center">
-                <label htmlFor="title" className="block text-sm font-medium text-gray-700">
-                  Entry Title
-                </label>
-                {generatingTitle && (
-                  <span className="text-sm text-blue-500">
-                    Generating title...
-                  </span>
-                )}
-              </div>
-              <div className="relative">
-                <input
-                  type="text"
-                  id="title"
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                  placeholder={generatingTitle ? "Generating title..." : "Give your journal entry a title"}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                  required
-                  disabled={generatingTitle}
-                />
-                {title && !generatingTitle && (
-                  <button
-                    onClick={() => setTitle('')}
-                    className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                    title="Clear title"
-                  >
-                    ✕
-                  </button>
-                )}
-              </div>
-              <p className="text-xs text-gray-500">
-                A title has been automatically generated. Feel free to modify it.
-              </p>
-            </div>
-          )}
-
-          {transcriptions.length > 0 && (
-            <PageNavigation
-              currentPage={currentPage}
-              totalPages={transcriptions.length}
-              onPageChange={setCurrentPage}
-              onDelete={handleDelete}
-            />
-          )}
-
+          
           <TranscriptionDisplay
             loading={loading}
             text={transcriptions[currentPage]}
             hasFiles={files.length > 0}
           />
-
-          {transcriptions.length > 0 && (
-            <SubmitButton 
-              title={title}
-              transcriptions={transcriptions}
-              disabled={submitting || !title.trim()}
-              loading={submitting}
-              onSuccess={handleSubmitSuccess}
-              onError={handleSubmitError}
-            />
+          
+          {files.length > 0 && (
+            <>
+              <PageNavigation
+                currentPage={currentPage}
+                totalPages={files.length}
+                onPageChange={setCurrentPage}
+                onDelete={handleDelete}
+              />
+              
+              <div className="space-y-4">
+                <input
+                  type="text"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  placeholder="Enter a title for your journal entry"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+                
+                <SubmitButton
+                  title={title}
+                  transcriptions={transcriptions}
+                  disabled={files.length === 0}
+                  loading={submitting}
+                  onSuccess={handleSubmitSuccess}
+                  onError={handleSubmitError}
+                />
+              </div>
+            </>
           )}
         </div>
       </div>
