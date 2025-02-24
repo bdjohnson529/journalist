@@ -69,90 +69,182 @@ export const Insights: React.FC = () => {
   };
 
   return (
-    <div className="w-[1200px] mx-auto bg-white rounded-lg shadow-lg flex min-h-[600px]">
-      {/* Sidebar with insight types */}
-      <div className="w-[300px] border-r border-gray-200 p-6">
-        <h2 className="text-xl font-bold text-gray-900 mb-6">
-          Available Insights
-        </h2>
-        <div className="space-y-4">
-          {INSIGHT_TYPES.map((insight) => (
-            <button
-              key={insight.id}
-              onClick={() => generateInsight(insight)}
-              className={`w-full text-left p-4 rounded-lg transition-colors duration-200 ${
-                selectedInsight?.id === insight.id
-                  ? 'bg-blue-50 border border-blue-200'
-                  : 'hover:bg-gray-50 border border-transparent'
-              }`}
-            >
-              <div className="flex items-start">
-                <span className="text-2xl mr-3 mt-1">{insight.icon}</span>
-                <div>
-                  <div className="font-semibold text-gray-900 text-lg">{insight.title}</div>
-                  <div className="text-sm text-gray-500 mt-1">{insight.description}</div>
+    <div className="w-full max-w-[1200px] mx-auto">
+      {/* Mobile view */}
+      <div className="block sm:hidden">
+        <div className="bg-white rounded-lg shadow-lg p-4">
+          {selectedInsight ? (
+            <div>
+              <button 
+                onClick={() => setSelectedInsight(null)}
+                className="mb-4 text-primary flex items-center"
+              >
+                <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                </svg>
+                Back to insights
+              </button>
+              
+              <div className="flex items-center mb-6">
+                <span className="text-2xl mr-2">{selectedInsight.icon}</span>
+                <h1 className="text-xl font-bold text-gray-900">
+                  {selectedInsight.title}
+                </h1>
+              </div>
+              
+              {/* Content based on state */}
+              {loading ? (
+                <div className="flex justify-center py-8">
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
                 </div>
-              </div>
-            </button>
-          ))}
-        </div>
-      </div>
+              ) : error ? (
+                <div className="text-center text-red-600 py-4">
+                  {error}
+                </div>
+              ) : analysis.length > 0 ? (
+                <div className="space-y-4">
+                  {analysis.map((item, index) => {
+                    // Split the item into title and content if it contains a colon
+                    const parts = item.split(': ');
+                    const hasTitle = parts.length > 1;
+                    const title = hasTitle ? parts[0] : '';
+                    const content = hasTitle ? parts[1] : item;
 
-      {/* Main content area */}
-      <div className="flex-1 p-8">
-        {!selectedInsight ? (
-          <div className="text-center text-gray-500 py-8">
-            Select an insight type from the sidebar to begin analysis
-          </div>
-        ) : (
-          <div>
-            <div className="flex items-center mb-8">
-              <span className="text-3xl mr-3">{selectedInsight.icon}</span>
-              <h1 className="text-3xl font-bold text-gray-900">
-                {selectedInsight.title}
-              </h1>
-            </div>
-
-            {loading ? (
-              <div className="flex justify-center py-8">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
-              </div>
-            ) : error ? (
-              <div className="text-center text-red-600 py-8">
-                {error}
-              </div>
-            ) : analysis.length > 0 ? (
-              <div className="space-y-6">
-                {analysis.map((item, index) => {
-                  // Split the item into title and content if it contains a colon
-                  const parts = item.split(': ');
-                  const hasTitle = parts.length > 1;
-                  const title = hasTitle ? parts[0] : '';
-                  const content = hasTitle ? parts[1] : item;
-
-                  return (
-                    <div 
-                      key={index}
-                      className="flex items-start p-6 bg-gray-50 rounded-lg"
-                    >
-                      <span className="text-blue-500 mr-4 text-lg">•</span>
-                      <div>
-                        {hasTitle && (
-                          <div className="font-semibold text-gray-900 mb-1">
-                            {title}:
+                    return (
+                      <div 
+                        key={index}
+                        className="flex items-start p-6 bg-gray-50 rounded-lg"
+                      >
+                        <span className="text-blue-500 mr-4 text-lg">•</span>
+                        <div>
+                          {hasTitle && (
+                            <div className="font-semibold text-gray-900 mb-1">
+                              {title}:
+                            </div>
+                          )}
+                          <div className="text-gray-700">
+                            {content}
                           </div>
-                        )}
-                        <div className="text-gray-700">
-                          {content}
                         </div>
                       </div>
+                    );
+                  })}
+                </div>
+              ) : null}
+            </div>
+          ) : (
+            <div>
+              <h2 className="text-xl font-bold text-gray-900 mb-4">
+                Available Insights
+              </h2>
+              <div className="space-y-3">
+                {INSIGHT_TYPES.map((insight) => (
+                  <button
+                    key={insight.id}
+                    onClick={() => generateInsight(insight)}
+                    className="w-full text-left p-4 rounded-lg border border-gray-200 hover:bg-gray-50"
+                  >
+                    <div className="flex items-start">
+                      <span className="text-2xl mr-3">{insight.icon}</span>
+                      <div>
+                        <div className="font-semibold text-gray-900">{insight.title}</div>
+                        <div className="text-sm text-gray-500 mt-1">{insight.description}</div>
+                      </div>
                     </div>
-                  );
-                })}
+                  </button>
+                ))}
               </div>
-            ) : null}
+            </div>
+          )}
+        </div>
+      </div>
+      
+      {/* Desktop view */}
+      <div className="hidden sm:flex bg-white rounded-lg shadow-lg min-h-[600px]">
+        {/* Sidebar with insight types */}
+        <div className="w-[300px] border-r border-gray-200 p-6">
+          <h2 className="text-xl font-bold text-gray-900 mb-6">
+            Available Insights
+          </h2>
+          <div className="space-y-4">
+            {INSIGHT_TYPES.map((insight) => (
+              <button
+                key={insight.id}
+                onClick={() => generateInsight(insight)}
+                className={`w-full text-left p-4 rounded-lg transition-colors duration-200 ${
+                  selectedInsight?.id === insight.id
+                    ? 'bg-blue-50 border border-blue-200'
+                    : 'hover:bg-gray-50 border border-transparent'
+                }`}
+              >
+                <div className="flex items-start">
+                  <span className="text-2xl mr-3 mt-1">{insight.icon}</span>
+                  <div>
+                    <div className="font-semibold text-gray-900 text-lg">{insight.title}</div>
+                    <div className="text-sm text-gray-500 mt-1">{insight.description}</div>
+                  </div>
+                </div>
+              </button>
+            ))}
           </div>
-        )}
+        </div>
+
+        {/* Main content area */}
+        <div className="flex-1 p-8">
+          {!selectedInsight ? (
+            <div className="text-center text-gray-500 py-8">
+              Select an insight type from the sidebar to begin analysis
+            </div>
+          ) : (
+            <div>
+              <div className="flex items-center mb-8">
+                <span className="text-3xl mr-3">{selectedInsight.icon}</span>
+                <h1 className="text-3xl font-bold text-gray-900">
+                  {selectedInsight.title}
+                </h1>
+              </div>
+
+              {loading ? (
+                <div className="flex justify-center py-8">
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+                </div>
+              ) : error ? (
+                <div className="text-center text-red-600 py-8">
+                  {error}
+                </div>
+              ) : analysis.length > 0 ? (
+                <div className="space-y-6">
+                  {analysis.map((item, index) => {
+                    // Split the item into title and content if it contains a colon
+                    const parts = item.split(': ');
+                    const hasTitle = parts.length > 1;
+                    const title = hasTitle ? parts[0] : '';
+                    const content = hasTitle ? parts[1] : item;
+
+                    return (
+                      <div 
+                        key={index}
+                        className="flex items-start p-6 bg-gray-50 rounded-lg"
+                      >
+                        <span className="text-blue-500 mr-4 text-lg">•</span>
+                        <div>
+                          {hasTitle && (
+                            <div className="font-semibold text-gray-900 mb-1">
+                              {title}:
+                            </div>
+                          )}
+                          <div className="text-gray-700">
+                            {content}
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              ) : null}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

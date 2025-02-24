@@ -79,87 +79,91 @@ export const HandwritingUploader: React.FC = () => {
   }, [transcriptions, title]);
 
   return (
-    <div className="min-h-screen bg-blue-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="w-[800px] mx-auto bg-white rounded-lg shadow-lg p-6 space-y-6">
-        <h1 className="text-2xl font-bold text-center text-blue-900 mb-8">
-          Handwriting Transcription
+    <div className="w-full max-w-[1200px] mx-auto bg-white rounded-lg shadow-lg p-4 sm:p-6">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6">
+        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2 sm:mb-0">
+          Upload Handwriting
         </h1>
-        
-        <FileUploadZone 
-          onFilesProcessed={handleFilesProcessed}
-          setLoading={setLoading}
-        />
+      </div>
 
-        {files.length > 0 && (
-          <div className="text-sm text-blue-500">
-            {files.length} file(s) selected
-          </div>
-        )}
-
-        {transcriptions.length > 0 && (
-          <div className="space-y-2">
-            <div className="flex justify-between items-center">
-              <label htmlFor="title" className="block text-sm font-medium text-gray-700">
-                Entry Title
-              </label>
-              {generatingTitle && (
-                <span className="text-sm text-blue-500">
-                  Generating title...
-                </span>
-              )}
-            </div>
-            <div className="relative">
-              <input
-                type="text"
-                id="title"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                placeholder={generatingTitle ? "Generating title..." : "Give your journal entry a title"}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                required
-                disabled={generatingTitle}
-              />
-              {title && !generatingTitle && (
-                <button
-                  onClick={() => setTitle('')}
-                  className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                  title="Clear title"
-                >
-                  ✕
-                </button>
-              )}
-            </div>
-            <p className="text-xs text-gray-500">
-              A title has been automatically generated. Feel free to modify it.
-            </p>
-          </div>
-        )}
-
-        {transcriptions.length > 0 && (
-          <PageNavigation
-            currentPage={currentPage}
-            totalPages={transcriptions.length}
-            onPageChange={setCurrentPage}
-            onDelete={handleDelete}
+      <div className="flex flex-col lg:flex-row gap-6">
+        <div className="w-full lg:w-1/2 space-y-6">
+          <FileUploadZone 
+            onFilesProcessed={handleFilesProcessed}
+            setLoading={setLoading}
           />
-        )}
 
-        <TranscriptionDisplay
-          loading={loading}
-          text={transcriptions[currentPage]}
-          hasFiles={files.length > 0}
-        />
+          {files.length > 0 && (
+            <div className="text-sm text-blue-500">
+              {files.length} file(s) selected
+            </div>
+          )}
 
-        {transcriptions.length > 0 && (
-          <SubmitButton 
-            title={title}
-            transcriptions={transcriptions}
-            disabled={submitting || !title.trim()}
-            loading={submitting}
-            onSuccess={handleSubmitSuccess}
-            onError={handleSubmitError}
+          {transcriptions.length > 0 && (
+            <div className="space-y-2">
+              <div className="flex justify-between items-center">
+                <label htmlFor="title" className="block text-sm font-medium text-gray-700">
+                  Entry Title
+                </label>
+                {generatingTitle && (
+                  <span className="text-sm text-blue-500">
+                    Generating title...
+                  </span>
+                )}
+              </div>
+              <div className="relative">
+                <input
+                  type="text"
+                  id="title"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  placeholder={generatingTitle ? "Generating title..." : "Give your journal entry a title"}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                  required
+                  disabled={generatingTitle}
+                />
+                {title && !generatingTitle && (
+                  <button
+                    onClick={() => setTitle('')}
+                    className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                    title="Clear title"
+                  >
+                    ✕
+                  </button>
+                )}
+              </div>
+              <p className="text-xs text-gray-500">
+                A title has been automatically generated. Feel free to modify it.
+              </p>
+            </div>
+          )}
+
+          {transcriptions.length > 0 && (
+            <PageNavigation
+              currentPage={currentPage}
+              totalPages={transcriptions.length}
+              onPageChange={setCurrentPage}
+              onDelete={handleDelete}
+            />
+          )}
+
+          <TranscriptionDisplay
+            loading={loading}
+            text={transcriptions[currentPage]}
+            hasFiles={files.length > 0}
           />
-        )}
+
+          {transcriptions.length > 0 && (
+            <SubmitButton 
+              title={title}
+              transcriptions={transcriptions}
+              disabled={submitting || !title.trim()}
+              loading={submitting}
+              onSuccess={handleSubmitSuccess}
+              onError={handleSubmitError}
+            />
+          )}
+        </div>
       </div>
 
       {/* Toast notification */}

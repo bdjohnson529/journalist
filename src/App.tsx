@@ -18,7 +18,7 @@ function App() {
             <ProtectedRoute>
               <div className="min-h-screen w-full bg-blue-50">
                 <Navigation />
-                <div className="flex flex-col items-center justify-start py-8">
+                <div className="flex flex-col items-center justify-start py-4 px-4 sm:py-8 sm:px-6">
                   <HandwritingUploader />
                 </div>
               </div>
@@ -28,7 +28,7 @@ function App() {
             <ProtectedRoute>
               <div className="min-h-screen w-full bg-blue-50">
                 <Navigation />
-                <div className="flex flex-col items-center justify-start py-8">
+                <div className="flex flex-col items-center justify-start py-4 px-4 sm:py-8 sm:px-6">
                   <JournalEntriesList />
                 </div>
               </div>
@@ -38,7 +38,7 @@ function App() {
             <ProtectedRoute>
               <div className="min-h-screen w-full bg-blue-50">
                 <Navigation />
-                <div className="flex flex-col items-center justify-start py-8">
+                <div className="flex flex-col items-center justify-start py-4 px-4 sm:py-8 sm:px-6">
                   <Insights />
                 </div>
               </div>
